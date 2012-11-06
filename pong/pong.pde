@@ -22,6 +22,13 @@ int paddleLX;
 int paddleLY;
 int paddleRX;
 int paddleRY;
+int paddleDY = 2;
+
+// keys
+boolean paddleLup = false;
+boolean paddleLdown = false;
+boolean paddleRup = false;
+boolean paddleRdown = false;
 
 void setup(){
 
@@ -70,6 +77,22 @@ void render(){
 }
 
 void drawPaddles(){
+
+  if(paddleLup == true){
+    paddleLY -= paddleDY;
+  }
+
+  if(paddleLdown == true){
+    paddleLY += paddleDY;
+  }
+
+  if(paddleRup == true){
+    paddleRY -= paddleDY;
+  }
+
+  if(paddleRdown == true){
+    paddleRY += paddleDY;
+  }
 	
 	// left paddle
 	rect(paddleLX, paddleLY, paddleWidth, paddleHeight);
@@ -106,26 +129,69 @@ void drawBall(){
 void keyPressed(){
 
   if (key == 'q'){
+    paddleLup = true;
   }
 
   if (key == 'a'){
+    paddleLdown = true;
   }
 
   if (key == 'o'){
+    paddleRup = true;
   }
 
   if (key == 'l'){
+    paddleRdown = true;
   }
 
   if (key == '+'){
+    // TODO
   }
 
-  if (key == '-'){ 
+  if (key == '-'){
+    // TODO
   }
 
   if (key == '*'){
+    // TODO
   }
 
   if (key == '/'){
+    // TODO
+  }
+}
+
+void keyReleased(){
+
+  if (key == 'q'){
+    paddleLup = false;
+  }
+
+  if (key == 'a'){
+    paddleLdown = false;
+  }
+
+  if (key == 'o'){
+    paddleRup = false;
+  }
+
+  if (key == 'l'){
+    paddleRdown = false;
+  }
+
+  if (key == '+'){
+    // TODO
+  }
+
+  if (key == '-'){
+    // TODO
+  }
+
+  if (key == '*'){
+    // TODO
+  }
+
+  if (key == '/'){
+    // TODO
   }
 }
