@@ -18,10 +18,11 @@ int lineWidth = 10;
 int paddleWidth = 10;
 int paddleHeight = 80;
 int paddleOffset = 10;
-int paddleLX;
 int paddleLY;
-int paddleRX;
 int paddleRY;
+int paddleRX;
+int paddleLX;
+
 int paddleDY = 2;
 
 // keys
@@ -30,9 +31,20 @@ boolean paddleLdown = false;
 boolean paddleRup = false;
 boolean paddleRdown = false;
 
+// frame rate
+int fRate = 30;
+int fRateStep = 1;
+boolean fRateINC = false;
+boolean fRateDEC = false;
+
 void setup(){
 
-	size(640, 360); // size of the game
+  // setting the frameRate
+  frameRate(fRate);
+
+  // size of the game
+	size(640, 360);
+
 	noStroke();
 	smooth();
 
@@ -49,6 +61,7 @@ void setup(){
 void draw(){
 	updateBallPosition();
   updatePaddlePosition();
+  updateFrameRate();
 	collide();
 	render();	
 }
@@ -78,6 +91,19 @@ void updatePaddlePosition(){
   // moving the right paddle down
   if ((paddleRdown == true) && (paddleRY < height - lineWidth - paddleHeight)){
     paddleRY += paddleDY;
+  }
+}
+
+void updateFrameRate(){
+
+  if (fRateINC == true){
+    fRate += fRateStep;
+    frameRate(fRate);
+  }
+
+  if(fRateDEC == true && fRate > fRateStep){
+    fRate -= fRateStep;
+    frameRate(fRate);
   }
 }
 
@@ -130,8 +156,8 @@ void drawPitch(){
 void drawBall(){
 	strokeWeight(0);
 	fill(255);
-	ellipseMode(RADIUS);
-	ellipse(ballX, ballY, ballRadius, ballRadius);
+  rectMode(CENTER);
+	rect(ballX, ballY, ballRadius, ballRadius);
 }
 
 void keyPressed(){
@@ -161,11 +187,11 @@ void keyPressed(){
   }
 
   if (key == '*'){
-    // TODO
+    fRateINC = true;
   }
 
   if (key == '/'){
-    // TODO
+    fRateDEC = true;
   }
 }
 
@@ -196,10 +222,10 @@ void keyReleased(){
   }
 
   if (key == '*'){
-    // TODO
+    fRateINC = false;
   }
 
   if (key == '/'){
-    // TODO
+    fRateDEC = false;
   }
 }
