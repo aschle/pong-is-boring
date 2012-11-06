@@ -48,6 +48,7 @@ void setup(){
 
 void draw(){
 	updateBallPosition();
+  updatePaddlePosition();
 	collide();
 	render();	
 }
@@ -55,6 +56,29 @@ void draw(){
 void updateBallPosition(){
 	ballX += speedX * directionX;
 	ballY += speedY * directionY;
+}
+
+void updatePaddlePosition(){
+
+  // moving the left paddle up
+  if ((paddleLup == true) && (paddleLY > offsetTop + lineWidth)){
+    paddleLY -= paddleDY;
+  }
+
+  // moving the right paddle up
+  if ((paddleRup == true) && (paddleRY > offsetTop + lineWidth)){
+    paddleRY -= paddleDY;
+  }
+
+  // moving the left paddle down
+  if ((paddleLdown == true) && (paddleLY < height - lineWidth - paddleHeight)){
+    paddleLY += paddleDY;
+  }
+
+  // moving the right paddle down
+  if ((paddleRdown == true) && (paddleRY < height - lineWidth - paddleHeight)){
+    paddleRY += paddleDY;
+  }
 }
 
 void collide(){
@@ -78,22 +102,6 @@ void render(){
 
 void drawPaddles(){
 
-  if(paddleLup == true){
-    paddleLY -= paddleDY;
-  }
-
-  if(paddleLdown == true){
-    paddleLY += paddleDY;
-  }
-
-  if(paddleRup == true){
-    paddleRY -= paddleDY;
-  }
-
-  if(paddleRdown == true){
-    paddleRY += paddleDY;
-  }
-	
 	// left paddle
 	rect(paddleLX, paddleLY, paddleWidth, paddleHeight);
 
