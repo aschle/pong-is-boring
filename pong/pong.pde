@@ -1,23 +1,24 @@
 // ball size (diameter)
-float ballSize = 15;
+float ballSize = 15.0f;
 
 // ball position
 float ballX, ballY;
 
 // ball speed
 int ballSpeedSteps = 1;
+float ballSpeed = 60.0f;
 
 // normierter Vektor
-float speedX = sqrt(0.5);
-float speedY = sqrt(0.5);
+float dirX = sqrt(0.5);
+float dirY = sqrt(0.5);
 
 // ball speed keys
 boolean ballSpeedINC = false;
 boolean ballSpeedDEC = false;
 
 // ball direction
-float directionX = 1;
-float directionY = 1;
+float directionX = 1.0f;
+float directionY = 1.0f;
 
 // pitch
 int offsetTop = 6;
@@ -32,7 +33,7 @@ int paddleRY;
 int paddleRX;
 int paddleLX;
 
-int paddleSpeed = 10;
+float paddleSpeed = 10.0f;
 
 // paddle moving keys
 boolean paddleLup = false;
@@ -41,8 +42,8 @@ boolean paddleRup = false;
 boolean paddleRdown = false;
 
 // frame rate
-int fRate = 30;
-int fRateStep = 1;
+float fRate = 30.0f;
+float fRateStep = 1.0f;
 
 // frame rate keys
 boolean fRateINC = false;
@@ -79,34 +80,32 @@ void draw(){
 }
 
 void updateBallPosition(){
-  // 1sekunde/framerate = länge eines Frames
-  // 1/ (1/framerate)
-  ballX += speedX * directionX;
-  ballY += speedY * directionY;
+  float frameLenght = 1.0f/fRate;
+
+  ballX += frameLenght*dirX*ballSpeed*directionX;
+  ballY += frameLenght*dirY*ballSpeed*directionY;
 }
 
 void updatePaddlePosition(){
 
-  if((frameCount % (fRate/paddleSpeed)) == 0) {
-    // moving the left paddle up
-    if ((paddleLup == true) && (paddleLY > offsetTop + lineWidth)){
-      paddleLY -= paddleSpeed;
-    }
+  // moving the left paddle up
+  if ((paddleLup == true) && (paddleLY > offsetTop + lineWidth)){
+    paddleLY -= paddleSpeed;
+  }
 
-    // moving the right paddle up
-    if ((paddleRup == true) && (paddleRY > offsetTop + lineWidth)){
-      paddleRY -= paddleSpeed;
-    }
+  // moving the right paddle up
+  if ((paddleRup == true) && (paddleRY > offsetTop + lineWidth)){
+    paddleRY -= paddleSpeed;
+  }
 
-    // moving the left paddle down
-    if ((paddleLdown == true) && (paddleLY < height - lineWidth - paddleHeight)){
-      paddleLY += paddleSpeed;
-    }
+  // moving the left paddle down
+  if ((paddleLdown == true) && (paddleLY < height - lineWidth - paddleHeight)){
+    paddleLY += paddleSpeed;
+  }
 
-    // moving the right paddle down
-    if ((paddleRdown == true) && (paddleRY < height - lineWidth - paddleHeight)){
-      paddleRY += paddleSpeed;
-    }
+  // moving the right paddle down
+  if ((paddleRdown == true) && (paddleRY < height - lineWidth - paddleHeight)){
+    paddleRY += paddleSpeed;
   }
 }
 
@@ -136,10 +135,10 @@ void updateBallSpeed(){
 void collide(){
 
 	// reflecting at top and bottom wall and the paddles
-	if (ballX > width - ballSize || ballX < ballSize) {
+	if (ballX > width - ballSize/2 || ballX < ballSize) {
     directionX *= -1;
   }
-  println (ballY + " " + (height - lineWidth - ballSize/2));
+
   if (ballY > height - lineWidth - ballSize/2 || ballY < ballSize/2 + offsetTop + lineWidth) {
     directionY *= -1;
   }
@@ -182,7 +181,7 @@ void drawPitch(){
 
 void drawBall(){
 	strokeWeight(0);
-	fill(255);
+	fill(200);
   rectMode(CENTER);
 	rect(ballX, ballY, ballSize, ballSize);
 }
